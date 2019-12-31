@@ -6,7 +6,7 @@ A tutorial I did a while back during class at Chalmers to learn some basic C++
 ## How to run
 ### Run script
 ```
-$ chmod +x run.sh && ./run
+$ chmod +x run.sh && ./run.sh
 ```
 
 ### DIY
