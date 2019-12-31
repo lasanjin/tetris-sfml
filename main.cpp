@@ -5,7 +5,6 @@
 using namespace sf;
 using namespace std;
 
-string get_path();
 bool check();
 
 const int M {20};
@@ -35,8 +34,7 @@ int main() {
 	window.setKeyRepeatEnabled(false);
 	Clock clock;
 	Texture texture;
-	string file_path {get_path()};
-	texture.loadFromFile("tiles.png");
+	texture.loadFromFile("resources/tiles.png");
 	Sprite tetrimino(texture);
 
 	int dx {0};
@@ -89,12 +87,10 @@ int main() {
 			delay = 0.05;
 		}
 
-		/*
-		 * Move
-		 */
+		// move
 		for(unsigned i{0}; i < 4; i++) {
-			b[i] = a[i]; // Save safe current tetrimino pos
-			a[i].x += dx; // Move
+			b[i] = a[i]; // save safe current tetrimino pos
+			a[i].x += dx; // move
 		}
 
 		if(!check()) { // If move not allowed
@@ -103,10 +99,8 @@ int main() {
 			}
 		}
 
-		/*
-		 * Rotate
-		 */
-		if(next != 4 && rotate) { // Don't rotate O
+		// Rotate
+		if(next != 4 && rotate) { // don't rotate O
 			/*
 			 * Left-handed Cartesian coordinate system,
 			 * (x directed to the right but y directed down),
@@ -126,7 +120,7 @@ int main() {
 			 * |0 -1|
 			 * |1  0|
 			 */
-			Position p = a[1]; // Center of rotation
+			Position p = a[1]; // center of rotation
 			for(int i{0}; i < 4; i++) {
 				int dx_ = a[i].y - p.y;	// ysinθ
 				int dy_ = a[i].x - p.x;	// xsinθ
@@ -141,12 +135,10 @@ int main() {
 			}
 		}
 
-		/*
-		 * Tick
-		 */
+		// tick
 		if(timer > delay) {
 			for(unsigned i{0}; i < 4; i++) {
-				b[i] = a[i]; // Save safe current tetrimino position
+				b[i] = a[i]; // save safe current tetrimino position
 				a[i].y += 1;
 			}
 
@@ -166,9 +158,7 @@ int main() {
 			timer = 0;
 		}
 
-		/*
-		 * Check lines
-		 */
+		// check lines
 		int k {M-1};
 		for(int i{M-1}; i > 0; i--) {
 
@@ -189,9 +179,7 @@ int main() {
 		delay = 0.3;
 		rotate = 0;
 
-		/*
-		 * Draw
-		 */
+		// draw
 		window.clear(Color::White);
 
 		for(unsigned i{0}; i < M; i++) {
@@ -231,12 +219,4 @@ bool check() {
 		}
 	}
 	return 1;
-}
-
-string get_path() {
-	string main_name {"main.cpp"};
-	string image_name {"tiles.png"};	
-	string file_path = __FILE__;
-	return file_path
-	       .substr(0, file_path.size() - main_name.size()).append(image_name);
 }
